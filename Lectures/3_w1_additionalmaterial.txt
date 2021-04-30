@@ -1,0 +1,21 @@
+References for verification of neural networks:
+
+
+a survey paper on verifying neural networks:
+C. Liu, T. Arnon, C. Lazaru, C. Barrett, and M.J. Kochenderfer, ‘Algorithms for verifying deep neural networks’, arXiv preprint arXiv:1903.06758, (2019).
+
+Other recent papers:
+
+Elena Botoeva, Panagiotis Kouvaros, Jan Kronqvist, Alessio Lomuscio, Ruth Misener:
+Efficient Verification of ReLU-Based Neural Networks via Dependency Analysis. AAAI 2020: 3291-3299
+https://ojs.aaai.org//index.php/AAAI/article/view/5729
+
+Patrick Henriksen, Alessio R. Lomuscio:
+Efficient Neural Network Verification via Adaptive Refinement and Adversarial Search. ECAI 2020: 2513-2520
+
+
+Alternative approach: a verified `wrapper' encapsulating learned behaviour:
+
+Giuseppe De Giacomo, Luca Iocchi, Marco Favorito, Fabio Patrizi
+Foundations for Restraining Bolts: Reinforcement Learning with LTLf/LDLf Restraining Specifications, ICAPS 2019. Available from arXiV:
+https://arxiv.org/abs/1807.06333
