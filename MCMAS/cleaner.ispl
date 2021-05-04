@@ -1,0 +1,49 @@
+-- INFOMLSAI 2021 Demo
+
+Agent Robot1
+    Vars: 
+        inA: boolean;
+        inB: boolean;
+        cleanA: boolean;
+        cleanB: boolean;
+    end Vars
+    Actions = {nil,move,suck};
+    Protocol:
+        inA=true or inB=true: {nil,move,suck};
+    end Protocol
+    Evolution:
+        cleanA=true if inA=true and Action = suck;
+        cleanA=true if cleanA=true and Action = nil;
+        cleanB=true if inB=true and Action = suck;
+        cleanB=true if cleanB=true and Action = nil;
+        inA=true if inB=true and Action = move;
+        inA=true if inA=true and Action = nil;
+        inB=true if inA=true and Action = move;
+        inB=true if inB=true and Action = nil;
+    end Evolution
+end Agent
+
+
+Evaluation
+        inA if Robot1.inA = true;
+        inB if Robot1.inB = true;
+        cleanA if Robot1.cleanA = true;
+        cleanB if Robot1.cleanB = true;
+end Evaluation
+
+InitStates
+        Robot1.inA = true and
+        Robot1.inB = false and
+        Robot1.cleanA = false and
+        Robot1.cleanB = false;
+end InitStates
+
+Formulae
+        (inA and !inB) and (!cleanA and !cleanB);
+        inA -> EF inB;
+        inA -> EF cleanA;
+        EF (cleanA and cleanB);
+        cleanB;
+        AG inA;
+        AF inB;
+end Formulae
