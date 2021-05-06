@@ -44,6 +44,6 @@ Formulae
         inA -> EF cleanA;
         EF (cleanA and cleanB);
         -- cleanB;
-        AG inA;
+        -- AG inA;
         -- AF inB;
 end Formulae
