@@ -1,4 +1,5 @@
--- INFOMLSAI 2021 Demo
+-- INFOMLSAI 2021 Vacuum Robot designed by
+-- ANNELINE DAGGELINCKX, MATTHIJS KEMP and OTTO MÄTTAS
 
 Agent Robot1
     Vars: 
@@ -23,7 +24,6 @@ Agent Robot1
     end Evolution
 end Agent
 
-
 Evaluation
         inA if Robot1.inA = true;
         inB if Robot1.inB = true;
@@ -43,7 +43,7 @@ Formulae
         inA -> EF inB;
         inA -> EF cleanA;
         EF (cleanA and cleanB);
-        cleanB;
+        -- cleanB;
         AG inA;
-        AF inB;
+        -- AF inB;
 end Formulae
