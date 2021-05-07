@@ -1,0 +1,44 @@
+Agent VacuumCleaner 
+	Vars:
+		cleanA : boolean;
+		cleanB : boolean;
+		location : {inA, inB};
+	end Vars
+	Actions = {nil, move, suck};
+	Protocol:
+		location = inA or location = inB : {nil, move, suck};
+	end Protocol
+	Evolution:
+		-- Location changes if the agent moves
+		location = inA if (location = inB and Action = move);
+		location = inB if (location = inA and Action = move);
+		-- A room is clean if the agent cleans it
+		cleanA=true if (location = inA and Action = suck);
+		cleanB=true if (location = inB and Action = suck);
+	end Evolution
+end Agent
+
+Evaluation
+	inA if VacuumCleaner.location = inA;
+	inB if VacuumCleaner.location = inB;
+	cleanA if VacuumCleaner.cleanA = true;
+	cleanB if VacuumCleaner.cleanB = true;
+end Evaluation
+
+InitStates
+	(VacuumCleaner.cleanA = false) and (VacuumCleaner.cleanB = false) and (VacuumCleaner.location = inA);
+end InitStates
+
+Formulae
+	-- Must be true
+	inA and !inB and !cleanA and !cleanB;
+	inA -> (EF inB);
+	inA -> (EF cleanA);
+	EF (cleanA and cleanB);
+	-- Must be false
+	-- cleanB;
+	AG inA;
+	AF inB;
+	
+end Formulae
+
