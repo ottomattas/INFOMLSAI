@@ -1,0 +1,56 @@
+-- State 0 --
+  Agent Environment
+  Agent VacuumCleaner
+    cleanA=false
+    cleanB=false
+    location=inA
+
+-- State 1 --
+  Agent Environment
+  Agent VacuumCleaner
+    cleanA=true
+    cleanB=false
+    location=inA
+
+-- State 2 --
+  Agent Environment
+  Agent VacuumCleaner
+    cleanA=false
+    cleanB=false
+    location=inB
+
+-- State 3 --
+  Agent Environment
+  Agent VacuumCleaner
+    cleanA=true
+    cleanB=false
+    location=inB
+
+-- State 4 --
+  Agent Environment
+  Agent VacuumCleaner
+    cleanA=false
+    cleanB=true
+    location=inB
+
+-- State 5 --
+  Agent Environment
+  Agent VacuumCleaner
+    cleanA=true
+    cleanB=true
+    location=inB
+
+-- State 6 --
+  Agent Environment
+  Agent VacuumCleaner
+    cleanA=false
+    cleanB=true
+    location=inA
+
+-- State 7 --
+  Agent Environment
+  Agent VacuumCleaner
+    cleanA=true
+    cleanB=true
+    location=inA
+
