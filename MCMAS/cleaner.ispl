@@ -1,41 +1,41 @@
 -- INFOMLSAI 2021 Vacuum Robot designed by
 -- ANNELINE DAGGELINCKX, MATTHIJS KEMP and OTTO MÄTTAS
 
-Agent Robot1
+Agent Cleaner
     Vars: 
-        inA: boolean;
-        inB: boolean;
+        location: {inA,inB};
         cleanA: boolean;
         cleanB: boolean;
     end Vars
-    Actions = {nil,move,suck};
+    Actions={nil,move,suck};
     Protocol:
-        inA=true or inB=true: {nil,move,suck};
+        location=inA or location=inB : {nil,move,suck};
     end Protocol
     Evolution:
-        cleanA=true if inA=true and Action = suck;
-        cleanA=true if cleanA=true and Action = nil;
-        cleanB=true if inB=true and Action = suck;
-        cleanB=true if cleanB=true and Action = nil;
-        inA=true if inB=true and Action = move;
-        inA=true if inA=true and Action = nil;
-        inB=true if inA=true and Action = move;
-        inB=true if inB=true and Action = nil;
+        -- Location changes if the agent moves
+		location=inA if (location=inB and Action=move);
+        location=inA if (location=inA and Action=nil);
+		location=inB if (location=inA and Action=move);
+        location=inB if (location=inB and Action=nil);
+		-- A room is clean if the agent cleans it
+		cleanA=true if (location=inA and Action=suck);
+        cleanA=true if (cleanA=true and Action=nil);
+		cleanB=true if (location=inB and Action=suck);
+        cleanB=true if (cleanB=true and Action=nil);
     end Evolution
 end Agent
 
 Evaluation
-        inA if Robot1.inA = true;
-        inB if Robot1.inB = true;
-        cleanA if Robot1.cleanA = true;
-        cleanB if Robot1.cleanB = true;
+        inA if Cleaner.location=inA;
+	    inB if Cleaner.location=inB;
+	    cleanA if Cleaner.cleanA=true;
+	    cleanB if Cleaner.cleanB=true;
 end Evaluation
 
 InitStates
-        Robot1.inA = true and
-        Robot1.inB = false and
-        Robot1.cleanA = false and
-        Robot1.cleanB = false;
+        Cleaner.location=inA and
+        Cleaner.cleanA=false and
+        Cleaner.cleanB=false;
 end InitStates
 
 Formulae
