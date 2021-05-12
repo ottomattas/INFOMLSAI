@@ -1,0 +1,42 @@
+Semantics=SingleAssignment;
+
+Agent Vacuum
+	Vars:
+		room: {a, b};
+		cleanA: boolean;
+		cleanB: boolean;
+	end Vars
+	Actions = {move, suck, nil};
+	Protocol:
+		room = a or room = b: {move, suck, nil};
+	end Protocol
+	Evolution:
+		room = a if room = a and Action = nil;
+		room = a if room = b and Action = move;
+		room = b if room = b and Action = nil;
+		room = b if room = a and Action = move;
+		cleanA = true if room = a and Action = suck;
+		cleanB = true if room = b and Action = suck;
+	end Evolution
+end Agent
+
+Evaluation
+	cleanA if Vacuum.cleanA = true;
+	cleanB if Vacuum.cleanB = true;
+	inA if Vacuum.room = a;
+	inB if Vacuum.room = b;
+end Evaluation
+
+InitStates
+	Vacuum.room=a and Vacuum.cleanA = false and Vacuum.cleanB = false;
+end InitStates
+
+Formulae
+	inA and !inB and !cleanA and !cleanB;
+	inA -> EF inB;
+	inA -> EF cleanA;
+	EF(cleanA and cleanB);
+	cleanB;
+	AG inA;
+	AF inB;
+end Formulae
