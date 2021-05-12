@@ -1,0 +1,14 @@
+
+The encoding of the vacuum cleaner is generally good. However there is an issue with the Evolution: you correctly set inA to be true if inB is true and the vacuum moves, but you also need to set inB to be false in this case. In your current encoding, the vacuum can be in both rooms at the same time, i.e., both inA and inB can be true in a state.
+
+
+
+Minor points:
+
+
+
+* related to the point above, where you have a variable that can take one of several values, e.g., being in one of several locations, you can get a simpler encoding by using an enumeration type rather than several booleans
+
+
+
+* in the Evolution, cleanA becomes true if the agent performs the nil action and the room is clean; this is not necessary: if cleanA is true in the initial state, it will remain true in subsequent states.
