@@ -1,0 +1,32 @@
+Agent Environment
+    Vars:
+        s: {g, r};
+    end Vars
+    Actions = {E1, L1, E2, L2};
+    Protocol:
+        s=g: {E1, E2};
+        s=r: {L1, L2};
+    end Protocol
+    Evolution:
+        s=g if s=r and ((Action=L1 and T1.Action=L1) or (Action=L2 and T2.Action=L2));
+        s=r if s=g and ((Action=L1 and T1.Action=E1) or (Action=L2 and T2.Action=E2));
+    end Evolution
+end Agent
+
+
+Agent T1
+    Vars:
+        s: {w, t, a};
+    end Vars
+    Actions = {E1, L1, B1};
+    Protocol:
+        s=w: {E1};
+        s=t: {L1};
+        s=a: {B1};
+    end Protocol
+    Evolution:
+        s=w if s=t if s=a if s=a and Action=B1;
+        s=w and Action=E1 and Environment.Action=E1;
+        s=t and Action=L1 and Environment.Action=L1;
+    end Evolution
+end Agent
