@@ -1,0 +1,97 @@
+-- INFOMLSAI 2021 an interpreted system designed by
+-- ANNELINE DAGGELINCKX, MATTHIJS KEMP and OTTO MÄTTAS
+
+Agent Environment
+	Vars:
+		pos: {pos0,pos1,pos2};
+		colour: {blue,white};
+		texture: {smooth,rough};
+	end Vars
+	Actions = {ND};
+	Protocol:
+    	Other : {ND};
+    end Protocol
+	Evolution:
+		-- No action
+		pos=pos0 and colour=blue and texture=rough if pos=pos0 and Robot1.Action=nil and Robot2.Action=nil;
+		pos=pos1 and colour=white and texture=rough if pos=pos1 and Robot1.Action=nil and Robot2.Action=nil;
+		pos=pos2 and colour=blue and texture=smooth if pos=pos2 and Robot1.Action=nil and Robot2.Action=nil;
+		-- Robot1 push
+        pos=pos0 and colour=blue and texture=rough if pos=pos2 and Robot1.Action=push1 and Robot2.Action=nil;
+        pos=pos1 and colour=white and texture=rough if pos=pos0 and Robot1.Action=push1 and Robot2.Action=nil;
+        pos=pos2 and colour=blue and texture=smooth if pos=pos1 and Robot1.Action=push1 and Robot2.Action=nil;
+        -- Robot2 push
+        pos=pos0 and colour=blue and texture=rough if pos=pos1 and Robot1.Action=nil and Robot2.Action=push2;
+        pos=pos1 and colour=white and texture=rough if pos=pos2 and Robot1.Action=nil and Robot2.Action=push2;
+        pos=pos2 and colour=blue and texture=smooth if pos=pos0 and Robot1.Action=nil and Robot2.Action=push2;
+        -- Robot1 and Robot2 push
+        pos=pos0 and colour=blue and texture=rough if pos=pos0 and Robot1.Action=push1 and Robot2.Action=push2;
+		pos=pos1 and colour=white and texture=rough if pos=pos1 and Robot1.Action=push1 and Robot2.Action=push2;
+		pos=pos2 and colour=blue and texture=smooth if pos=pos2 and Robot1.Action=push1 and Robot2.Action=push2;
+	end Evolution
+end Agent
+
+Agent Robot1
+	Lobsvars = {colour};
+    -- var required by ISPL, give placeholder
+	Vars:
+		not_defined : {ND};
+	end Vars
+    Actions = {push1,nil};
+    Protocol:
+        Other : {push1,nil}; 
+    end Protocol
+    Evolution:
+        not_defined=ND;
+    end Evolution
+end Agent
+
+Agent Robot2
+	Lobsvars = {texture};
+    -- var required by ISPL, give placeholder
+	Vars:
+		not_defined : {ND};
+	end Vars
+    Actions = {push2, nil};
+    Protocol:
+        Other : {push2, nil}; 
+    end Protocol
+    Evolution:
+        not_defined=ND;
+    end Evolution
+end Agent
+
+Evaluation
+    pos0 if Environment.pos=pos0;
+    pos1 if Environment.pos=pos1;
+    pos2 if Environment.pos=pos2;
+    blue if Environment.colour=blue;
+    white if Environment.colour=white;
+    rough if Environment.texture=rough;
+    smooth if Environment.texture=smooth;
+end Evaluation
+
+InitStates
+	Environment.pos=pos0 and
+	Environment.colour=blue and
+	Environment.texture=rough and
+	Robot1.not_defined=ND and
+	Robot2.not_defined=ND;
+end InitStates
+
+Groups
+	g = {Robot1,Robot2};
+end Groups
+
+Formulae
+	pos2 -> !K(Robot1,pos2);
+	pos2 -> K(Robot1,!pos1);
+	pos2 -> K(Robot2,K(Robot1,!pos1));
+	pos2 -> DK(g,pos2);
+	pos2 -> !GK(g,pos2);
+	pos2 -> GK(g,!pos1);
+	pos2 -> !GCK(g,pos2);
+	pos2 -> !GCK(g,!pos1);
+	AG GCK(g,(pos0 or pos1 or pos2));
+	EF GK(g,!pos1);
+end Formulae
