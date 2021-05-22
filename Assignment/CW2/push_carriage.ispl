@@ -33,31 +33,33 @@ end Agent
 
 Agent Robot1
 	Lobsvars = {colour};
-    -- var required by ISPL, give placeholder
+    -- vars required by ISPL, give empty placeholder
 	Vars:
-		not_defined : {ND};
+		placeholder : {ND};
 	end Vars
     Actions = {push1,nil};
     Protocol:
         Other : {push1,nil}; 
     end Protocol
+    -- evolution required by ISPL, give empty placeholder
     Evolution:
-        not_defined=ND;
+        placeholder=ND if placeholder=ND;
     end Evolution
 end Agent
 
 Agent Robot2
 	Lobsvars = {texture};
-    -- var required by ISPL, give placeholder
+    -- vars required by ISPL, give empty placeholder
 	Vars:
-		not_defined : {ND};
+		placeholder : {ND};
 	end Vars
     Actions = {push2, nil};
     Protocol:
         Other : {push2, nil}; 
     end Protocol
+    -- evolution required by ISPL, give empty placeholder
     Evolution:
-        not_defined=ND;
+        placeholder=ND if placeholder=ND;
     end Evolution
 end Agent
 
@@ -74,9 +76,7 @@ end Evaluation
 InitStates
 	Environment.pos=pos0 and
 	Environment.colour=blue and
-	Environment.texture=rough and
-	Robot1.not_defined=ND and
-	Robot2.not_defined=ND;
+	Environment.texture=rough;
 end InitStates
 
 Groups
