@@ -1,0 +1,88 @@
+Agent Environment
+	Vars:
+		-- the position of the carriage
+		pos : {pos0, pos1, pos2};
+		-- the floor under the carriage is blue
+		blue : boolean;
+		-- the floor under the carriage is rough
+		rough : boolean;
+	end Vars
+	Actions = { };
+	Protocol:
+	end Protocol
+	Evolution:
+		(pos = pos0 and blue = true and rough = true) if 
+				(Robot1.Action=nil and Robot2.Action=nil and pos=pos0) or
+				(Robot1.Action=push1 and Robot2.Action=push2 and pos=pos0) or
+				(Robot1.Action=push1 and Robot2.Action=nil and pos=pos2) or
+				(Robot1.Action=nil and Robot2.Action=push2 and pos=pos1);
+		(pos = pos1 and blue = false and rough = true) if 
+		   		(Robot1.Action=nil and Robot2.Action=nil and pos=pos1) or
+				(Robot1.Action=push1 and Robot2.Action=push2 and pos=pos1) or
+				(Robot1.Action=push1 and Robot2.Action=nil and pos=pos0) or
+				(Robot1.Action=nil and Robot2.Action=push2 and pos=pos2);
+		(pos = pos2 and blue = true and rough = false) if 
+				(Robot1.Action=nil and Robot2.Action=nil and pos=pos2) or
+				(Robot1.Action=push1 and Robot2.Action=push2 and pos=pos2) or
+				(Robot1.Action=push1 and Robot2.Action=nil and pos=pos1) or
+				(Robot1.Action=nil and Robot2.Action=push2 and pos=pos0);
+	end Evolution
+end Agent
+
+Agent Robot1
+	Lobsvars = { blue };
+	Vars: 
+		dummy1 : boolean;
+	end Vars
+	Actions = {push1,nil};
+	Protocol:
+		Other : {push1,nil};
+	end Protocol
+	Evolution:
+		dummy1 = true if dummy1 = true;
+	end Evolution
+end Agent
+
+Agent Robot2
+	Lobsvars = { rough };
+	Vars:
+		dummy2 : boolean;
+	end Vars
+	Actions = {push2,nil};
+	Protocol:
+		Other : {push2,nil};
+	end Protocol
+	Evolution:
+		dummy2 = true if dummy2 = true;
+	end Evolution
+end Agent
+
+Evaluation
+	pos0 if Environment.pos = pos0;
+	pos1 if Environment.pos = pos1;
+	pos2 if Environment.pos = pos2;
+end Evaluation
+
+InitStates
+	(Environment.pos = pos0 and Environment.blue = true and Environment.rough = true) and 
+	(Robot1.dummy1 = true) and (Robot2.dummy2 = true);
+end InitStates
+
+Groups
+	g = {Robot1, Robot2};
+end Groups
+
+Formulae
+	pos2 -> !K(Robot1,pos2);
+	pos2 -> K(Robot1,!pos1);
+	pos2 -> K(Robot2,K(Robot1, !pos1));
+	
+	pos2 -> DK(g,pos2);
+	pos2 -> !GK(g,pos2);
+	pos2 -> GK(g,!pos1);
+	pos2 -> !GCK(g,pos2);
+	pos2 -> !GCK(g,!pos1);
+	
+	AG GCK(g,(pos0 or pos1 or pos2));
+	EF GK(g,!pos1);
+end Formulae
