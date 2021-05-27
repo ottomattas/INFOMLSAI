@@ -1,0 +1,10 @@
+See Literature/ for the PDFs
+
+1. Naumov and Tao paper on blameworthiness
+
+An epistemic logic of blameworthiness Pavel Naumov a, Jia Tao b,∗
+
+2. Paper on CL with knowledge modalities
+
+Coalition Logic with Individual, Distributed and Common Knowledge∗
+ThomasA ̊gotnes

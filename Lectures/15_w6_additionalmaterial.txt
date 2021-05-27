@@ -1,0 +1,10 @@
+See Literature/ for the PDFs
+
+1. Paper introducing Alternating Time Temporal Logic
+Alternating-Time Temporal Logic
+RAJEEV ALUR
+University of Pennsylvania, Philadelphia, Pennsylvania
+THOMAS A. HENZINGER
+University of California, Berkeley, California
+AND
+ORNA KUPFERMAN Hebrew University, Jerusalem, Israel
