@@ -1,0 +1,88 @@
+Semantics=SingleAssignment;
+
+Agent Environment
+	Vars:
+		guardRoom: {room0, room1, room2};
+		painting: boolean;
+	end Vars
+	Actions = { none };
+	Protocol:
+ 		Other: { none };
+    end Protocol
+	Evolution:
+		guardRoom = room0 if (guardRoom=room1 and Guard.Action=left);
+		guardRoom = room1 if (guardRoom=room0 and Guard.Action=right) or (guardRoom=room2 and Guard.Action=left);
+		guardRoom = room2 if (guardRoom=room1 and Guard.Action=right);
+		
+		painting = false if (Thief.Action=steal);
+	end Evolution
+end Agent
+
+
+Agent Guard
+	Lobsvars = {guardRoom};
+	Vars:
+		dummy: {var};
+	end Vars
+    Actions = {left, right, wait};
+    Protocol:
+    	Environment.guardRoom=room0 : {right, wait};
+    	Environment.guardRoom=room2 : {left, wait}; 
+    	Other : {left, right, wait};
+    end Protocol
+    Evolution:
+        dummy = var if dummy = var; 
+    end Evolution
+end Agent	
+
+
+Agent Thief
+	Lobsvars = {guardRoom};
+	Vars:
+		room: {outside, room0, room1, room2};
+	end Vars
+	Actions = {left, right, wait, steal, exit};
+	Protocol:
+		room=room2 and Environment.guardRoom=room2: {left, wait, exit};
+		room=room2 and (Environment.guardRoom=room0 or Environment.guardRoom=room2): {left, wait, steal, exit};
+		room=room0 : {right, wait};
+		room=room1 : {left, right, wait};
+		Other: {left, right, wait};
+	end Protocol
+	Evolution:
+		room = room0 if (room=room1 and Action=left);
+		room = room1 if (room=room0 and Action=right) or (room=room2 and Action=left);
+		room = room2 if (room=room1 and Action=right);
+		room = outside if (room=room2 and Action=exit); 
+	end Evolution
+end Agent
+
+
+Evaluation
+    caught if (Environment.painting = false) and (Environment.guardRoom = Thief.room);
+    stolen if Environment.painting = false;
+    escaped if Thief.room = outside;
+end Evaluation
+
+InitStates
+	Environment.guardRoom = room0 and
+	Thief.room = room0 and
+	Environment.painting = true;
+end InitStates
+
+Groups
+	gG = {Guard};
+	gT = {Thief};
+	gGT = {Guard, Thief};
+end Groups
+
+Formulae
+	-- exercise 7.3: 
+	<gG> G(!stolen);
+	
+	-- exercise 7.4:
+	-- <gGT> (!caught U (stolen and escaped));
+	-- This last formula gives a segmentation fault but is equivalent to
+	E (!caught U (stolen and escaped));
+end Formulae
+

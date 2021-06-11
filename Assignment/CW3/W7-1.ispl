@@ -1,0 +1,90 @@
+Agent Environment
+	Vars:
+		state: {q0r, q0p, q0s, q1r, q1p, q1s, q2r, q2p, q2s};
+	end Vars
+	Actions = { none };
+	Protocol:
+    	Other : { none };
+    end Protocol
+	Evolution:
+		state=q0r if (state=q0s or state=q1s or state=q2s) and (Player1.Action = scissors and Player2.Action = scissors);
+		state=q1r if (state=q0s or state=q1s or state=q2s) and (Player1.Action = scissors and Player2.Action = paper);
+		state=q2r if (state=q0s or state=q1s or state=q2s) and (Player1.Action = scissors and Player2.Action = rock);
+		
+		state=q0p if (state=q0r or state=q1r or state=q2r) and (Player1.Action = rock and Player2.Action = rock);
+		state=q1p if (state=q0r or state=q1r or state=q2r) and (Player1.Action = rock and Player2.Action = scissors);
+		state=q2p if (state=q0r or state=q1r or state=q2r) and (Player1.Action = rock and Player2.Action = paper);
+		
+		state=q0s if (state=q0p or state=q1p or state=q2p) and (Player1.Action = paper and Player2.Action = paper);
+		state=q1s if (state=q0p or state=q1p or state=q2p) and (Player1.Action = paper and Player2.Action = rock);
+		state=q2s if (state=q0p or state=q1p or state=q2p) and (Player1.Action = paper and Player2.Action = scissors);
+	end Evolution
+end Agent
+
+
+Agent Player1
+	Lobsvars = {state};
+	Vars:
+		-- this agent doesn't have other variables than the locally observable variables, but ispl forces you to define one
+		dummy : {val};
+	end Vars
+    Actions = {rock, paper, scissors};
+    Protocol:
+        Environment.state=q0r or Environment.state=q1r or Environment.state=q2r : {rock}; 
+        Environment.state=q0p or Environment.state=q1p or Environment.state=q2p : {paper}; 
+        Environment.state=q0s or Environment.state=q1s or Environment.state=q2s : {scissors}; 
+    end Protocol
+    Evolution:
+        dummy = val if dummy = val;
+    end Evolution
+end Agent	
+
+
+Agent Player2
+	Lobsvars = {state};
+	Vars:
+		dummy : {val};
+	end Vars
+    Actions = {rock, paper, scissors};
+    Protocol:
+        Other: {rock, paper, scissors}; 
+    end Protocol
+    Evolution:
+        dummy = val if dummy = val;
+    end Evolution
+end Agent
+
+
+Evaluation
+    win1 if (Environment.state=q1r or Environment.state=q1p or Environment.state=q1s);
+    win2 if (Environment.state=q2r or Environment.state=q2p or Environment.state=q2s);
+end Evaluation
+
+InitStates
+	Environment.state = q0r and
+	Player1.dummy = val and
+	Player2.dummy = val;
+end InitStates
+
+Groups
+	g1 = {Player1};
+	g2 = {Player2};
+	g_all = {Player1,Player2};
+end Groups
+
+Formulae
+	-- Test formulae
+	<g2> X win2;
+	<g2> F win1;
+	--!<g1> X win1;
+	<g_all> F win1;
+	
+	-- Formula w6-4
+	<g2> X(<g2> G win2);
+end Formulae
+
+
+
+
+
+
