@@ -1,0 +1,13 @@
+The paper that introduced ATL is self-explanatory.
+
+Here are some papers promised in Monday Q & A:
+
+- parameterised model checking of strategic ability
+- probabilistic model checking of strategic ability
+- techniques to reduce state space (partial order reduction)
+- an old paper on abstraction in temporal logic model checking
+- a recent paper on abstraction in model checking strategic ability
+- strategic ability with (earning and spending) resources
+
+Happy to provide more references, and also you can follow
+references at the end of papers if something looks interesting
