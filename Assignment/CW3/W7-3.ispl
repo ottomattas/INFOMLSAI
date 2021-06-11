@@ -1,3 +1,6 @@
+-- INFOMLSAI 2021 an interpreted system designed by
+-- ANNELINE DAGGELINCKX, MATTHIJS KEMP and OTTO MATTAS
+
 Semantics=SingleAssignment;
 
 Agent Environment

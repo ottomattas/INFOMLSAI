@@ -1,3 +1,6 @@
+-- INFOMLSAI 2021 an interpreted system designed by
+-- ANNELINE DAGGELINCKX, MATTHIJS KEMP and OTTO MATTAS
+
 Agent Environment
 	Vars:
 		state: {q0r, q0p, q0s, q1r, q1p, q1s, q2r, q2p, q2s};
