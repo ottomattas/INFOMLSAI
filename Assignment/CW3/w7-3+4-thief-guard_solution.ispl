@@ -1,0 +1,92 @@
+-- The museum consistst of three rooms along a corridor: room0, room1, room2. The entrance is room0,  
+-- the exit is room2, and a valuable painting is in room2. A guard is patrolling the three rooms,  
+-- and has actions to move left and right to the next room, and to wait in a room.The thief has the 
+-- same actions left, right, wait but also steal and exit. The thief can steal the painting if he is 
+-- alone in room2 (the guard is in another room); the thief is caught if he is in the same room with 
+-- the guard after the painting is stolen. The goal of the thief is to steal the painting and exit
+-- without being caught (to exit, the thief needs to be in room2).
+Semantics= SingleAssignment;
+
+Agent Environment
+	Vars:
+		pos_guard: {room0, room1, room2};
+		pos_thief : {room0, room1, room2};
+		stolen: boolean;
+		escaped: boolean;
+	end Vars
+	Actions = { };
+	Protocol:
+	end Protocol
+	Evolution:
+		pos_guard = room0 if (pos_guard = room0 and Guard.Action = wait) or (pos_guard = room1 and Guard.Action = left);
+		pos_guard = room1 if (pos_guard = room1 and Guard.Action = wait) or (pos_guard = room2 and Guard.Action = left) or (pos_guard = room0 and Guard.Action = right);
+		pos_guard = room2 if (pos_guard = room2 and Guard.Action = wait) or (pos_guard = room1 and Guard.Action = right);
+		pos_thief = room0 if (pos_thief = room0 and Thief.Action = wait) or (pos_thief = room1 and Thief.Action = left);
+		pos_thief = room1 if (pos_thief = room1 and Thief.Action = wait) or (pos_thief = room2 and Thief.Action = left) or (pos_thief = room0 and Thief.Action = right);
+		pos_thief = room2 if (pos_thief = room2 and Thief.Action = wait) or (pos_thief = room1 and Thief.Action = right);
+		stolen = true if Thief.Action = steal;
+		escaped = true if stolen = true and Thief.Action = exit;
+	end Evolution
+end Agent
+
+Agent Guard
+	Lobsvars = { pos_guard };
+	Vars:
+		dummy: boolean;
+	end Vars
+	Actions = { left, right, wait };
+	Protocol:
+		Environment.pos_guard = room0 : { right, wait };
+		Environment.pos_guard = room1 : { right, left, wait };
+		Environment.pos_guard = room2 : { left, wait };
+	end Protocol
+	Evolution:
+		dummy = true if dummy= true;
+	end Evolution
+end Agent
+
+Agent Thief
+	Lobsvars = { pos_guard, pos_thief, stolen, escaped };
+	Vars:
+		dummy: boolean;
+	end Vars
+	Actions = {left, right, wait, steal, exit};
+	Protocol:
+		Environment.pos_thief = room0 : { right, wait };
+		Environment.pos_thief = room1 : { right, left, wait };
+		Environment.pos_thief = room2 and (Environment.pos_guard = room0 or Environment.pos_guard = room1) and Environment.stolen = false : { left, wait, steal };
+		Environment.pos_thief = room2 : { left, wait, exit };
+	end Protocol
+	Evolution:
+		dummy = true if dummy = true;
+	end Evolution
+end Agent
+
+Evaluation
+	stolen if Environment.stolen = true;
+	caught if Environment.pos_guard = Environment.pos_thief and Environment.stolen = true;
+	escaped if Environment.escaped = true;  
+end Evaluation
+
+InitStates
+	Environment.pos_guard = room0 and Guard.dummy = true and Environment.pos_thief = room0 and Thief.dummy = true and Environment.stolen = false and Environment.escaped = false ;
+end InitStates
+
+Groups
+	gG = { Guard };
+	gT = {Thief };
+	gTG = { Thief, Guard }; 
+end Groups
+
+Fairness
+end Fairness
+
+Formulae
+	-- Answer to 7-3
+	<gG> G !stolen;
+	-- which means that the following property is false
+	<gT> F escaped;
+	-- Answer to 7-4
+	<gTG> ((!caught) U (stolen and escaped));
+end Formulae
+

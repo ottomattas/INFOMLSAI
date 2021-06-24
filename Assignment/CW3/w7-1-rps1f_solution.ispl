@@ -1,0 +1,78 @@
+Agent Environment
+	Vars:
+		state : {qr1,qr2,qr3,qp1,qp2,qp3,qs1,qs2,qs3};
+	end Vars
+	Actions = { };
+	Protocol:
+	end Protocol
+	Evolution:
+		state = qp3 if (state = qr1 or state = qr2 or state = qr3) and Player1.Action = rock and Player2.Action = rock;
+		state = qp2 if (state = qr1 or state = qr2 or state = qr3) and Player1.Action = rock and Player2.Action = paper;
+		state = qp1 if (state = qr1 or state = qr2 or state = qr3) and Player1.Action = rock and Player2.Action = scissors;
+		state = qs1 if (state = qp1 or state = qp2 or state = qp3) and Player1.Action = paper and Player2.Action = rock;
+		state = qs3 if (state = qp1 or state = qp2 or state = qp3) and Player1.Action = paper and Player2.Action = paper;
+		state = qs2 if (state = qp1 or state = qp2 or state = qp3) and Player1.Action = paper and Player2.Action = scissors;
+		state = qr2 if (state = qs1 or state = qs2 or state = qs3) and Player1.Action = scissors and Player2.Action = rock;
+		state = qr1 if (state = qs1 or state = qs2 or state = qs3) and Player1.Action = scissors and Player2.Action = paper;
+		state = qr3 if (state = qs1 or state = qs2 or state = qs3) and Player1.Action = scissors and Player2.Action = scissors;
+	end Evolution
+end Agent
+
+Agent Player1
+	Lobsvars = { state };
+	Vars:
+		alive: boolean;
+	end Vars
+	Actions = {rock, paper, scissors};
+	Protocol:
+		Environment.state = qr1 or Environment.state = qr2 or Environment.state = qr3 : {rock};
+		Environment.state = qp1 or Environment.state = qp2 or Environment.state = qp3 : {paper};
+		Environment.state = qs1 or Environment.state = qs2 or Environment.state = qs3 : {scissors};
+	end Protocol
+	Evolution:
+		alive = true if alive = true;
+	end Evolution
+end Agent
+
+Agent Player2
+	Lobsvars = { state };
+	Vars:
+		alive: boolean;
+	end Vars
+	Actions = {rock, paper, scissors};
+	Protocol:
+		alive = true: {rock, paper, scissors};
+	end Protocol
+	Evolution:
+		alive = true if alive = true;
+	end Evolution
+end Agent
+
+Evaluation
+	win1 if Environment.state = qr1 or Environment.state = qp1 or Environment.state = qs1;
+	win2 if Environment.state = qr2 or Environment.state = qp2 or Environment.state = qs2;
+end Evaluation
+
+InitStates
+	Player1.alive = true and Player2.alive = true;
+end InitStates
+
+Groups
+	g1 = {Player1};
+	g2 = {Player2};
+	g_all = {Player1,Player2};
+end Groups
+
+Fairness
+end Fairness
+
+-- Note that, when verifying the following properties with the -c option to generate a witness, the third formula 
+-- needs to be commented out. As explained in the lecture, it's not possible to provide a witness for a negated ATL 
+-- formula that is true, as in this case the coalition has no strategy.
+Formulae
+	<g2> X win2;
+	<g2> F win1;
+	!<g1> X win1;
+	<g_all> F win1;
+	<g2> X <g2> G win2;
+end Formulae
