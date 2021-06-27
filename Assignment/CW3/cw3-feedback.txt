@@ -1,0 +1,45 @@
+INFOMLSAI Coursework feedback
+
+Group: group 6
+
+Members: ANNELINE DAGGELINCKX, MATTHIJS KEMP, and OTTO MÄTTAS
+
+Mark: 10
+
+Feedback
+
+W6-1 correct
+
+
+W6-2 correct
+
+
+W6-3 very small point: \{q_{ij} \} just means you have one state q_{ij}. If you want a set of states indexed by $i$ and $j$, you have to specify what i and j range over. 
+
+
+W6-4 correct
+
+
+W6-5 correct
+
+
+W7-1 correct
+
+
+W7-2
+
+The formula is correct. The encoding of the guard's behaviour is correct. The thief's protocol specifies that the thief can steal the painting if the guard is in room2; however the question was ambiguous about whether "alone in room2" refers to before or after the steal action. Also, the evolution relies on the agent's state not changing when the agent selects a wait action (or any action when it is outside), which is arguably poor style.
+
+
+W7-3
+
+The formula is correct, as is the encoding of the guard's unrestricted behaviour.
+
+W7-4
+
+The formula is correct, and the equivalent formula shows a good understanding of embedding CTL in ATL.
+
+W7-5 
+
+All correct
+

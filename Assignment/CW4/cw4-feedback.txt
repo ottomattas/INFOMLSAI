@@ -1,0 +1,83 @@
+INFOMLSAI Coursework feedback
+
+
+
+Group: 6
+
+
+
+Members: ANNELINE DAGGELINCKX, MATTHIJS KEMP, and OTTO MÄTTAS
+
+
+
+Mark: 9.75
+
+
+
+Feedback
+
+
+
+CW4-1 all correct, only if you have drive_left and drive_right actions in states q2-q9, you need to specify transitions from those states.
+
+
+
+-0.25
+
+
+
+
+
+CW4-2 correct
+
+
+
+
+
+CW4-3 correct
+
+
+
+
+
+CW4-4 correct
+
+
+
+
+
+CW5-5 correct
+
+
+
+
+
+CW4-6 correct
+
+
+
+
+
+CW4-7 correct
+
+
+
+
+
+CW4-8 correct
+
+
+
+
+
+CW4-9 correct
+
+
+
+
+
+CW4-10 in the description of the logic, by booleans we meant boolean connectives not, and, or. Sorry for being unclear. Obviously no marks removed for not covering them and doing True and False instead.
+
+
+
+Everything correct.
